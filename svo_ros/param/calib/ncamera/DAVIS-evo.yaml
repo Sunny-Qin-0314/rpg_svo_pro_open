@@ -47,31 +47,31 @@ cameras:
     calib_date: 21/05/2021
 label: DAVIS-EVO
 
-# imu_params:
-#   delay_imu_cam: 0.0
-#   max_imu_delta_t: 0.01
-#   acc_max: 155.0
-#   omega_max: 34
-#   sigma_omega_c: 5.0e-4
-#   sigma_acc_c: 4.0e-2
-#   sigma_omega_bias_c: 1.2e-07
-#   sigma_acc_bias_c: 1.0e-2
-#   sigma_integration: 0.0
-#   g: 9.8082
-#   imu_rate: 1000.0
-#
-# imu_initialization:
-#   velocity: [0.0, 0.0, 0.0]
-#   omega_bias: [0.0, 0.0, 0.0]
-#   acc_bias: [0.0, 0.0, 0.0]
-#   velocity_sigma: 1.0
-#   omega_bias_sigma: 0.05
-#   acc_bias_sigma: 0.4
-#
-# # # IMU initialization
-# # imu_bias/ax: 0.24937
-# # imu_bias/ay: 0.30818
-# # imu_bias/az: 2.30426
-# # imu_bias/wx: 0.01517
-# # imu_bias/wy: 0.02372
-# # imu_bias/wz: -0.00498
+imu_params:
+  delay_imu_cam: 0.0
+  max_imu_delta_t: 0.01
+  acc_max: 155.0
+  omega_max: 34
+  sigma_omega_c: 5.0e-4
+  sigma_acc_c: 4.0e-2
+  sigma_omega_bias_c: 1.2e-07
+  sigma_acc_bias_c: 1.0e-2
+  sigma_integration: 0.0
+  g: 9.8082
+  imu_rate: 1000.0
+
+imu_initialization:
+  velocity: [0.0, 0.0, 0.0]
+  omega_bias: [0.0, 0.0, 0.0]
+  acc_bias: [0.0, 0.0, 0.0]
+  velocity_sigma: 1.0
+  omega_bias_sigma: 0.05
+  acc_bias_sigma: 0.4
+
+# # IMU initialization
+# imu_bias/ax: 0.24937
+# imu_bias/ay: 0.30818
+# imu_bias/az: 2.30426
+# imu_bias/wx: 0.01517
+# imu_bias/wy: 0.02372
+# imu_bias/wz: -0.00498

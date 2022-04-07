@@ -101,7 +101,7 @@ img_align_prior_lambda_trans: 0.0 # Constant velocity assumption prior in sparse
 publish_every_nth_dense_input: 5
 
 # Visualization
-publish_marker_scale: 0.5
+publish_marker_scale: 0.2
 
 # Stereo parameters, not used for mono.
 max_depth_inv: 0.05
