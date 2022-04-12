@@ -65,7 +65,7 @@ reprojector_affine_est_gain: false
 ########################################
 # Initialization
 # For a higher resolution, increase the value accordingly.
-init_min_disparity: 25
+init_min_features: 25
 init_min_disparity: 10
 
 # Feature Detection

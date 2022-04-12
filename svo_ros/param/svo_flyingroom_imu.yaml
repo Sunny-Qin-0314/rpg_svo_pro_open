@@ -34,7 +34,7 @@ kfselect_criterion: DOWNLOOKING # alterntive: DOWNLOOKING
 # The following kfselect_* ONLY affects FORWARD
 # If the number of features: >upper, no keyframe; <lower, take keyframe
 kfselect_numkfs_upper_thresh: 120
-kfselect_numkfs_lower_thresh: 70
+kfselect_numkfs_lower_thresh: 70   # ! might change for lower resolution
 # If the current frame is within the following range of any visible keyframes,
 # do not take a new keyframe.
 # You can lower these values for more keyframes
@@ -43,7 +43,7 @@ kfselect_min_angle: 20
 # If the median disparity from the last keyframe is smaller,
 # do not take a new keyframe
 # You can lower this value for more keyframes
-kfselect_min_disparity: 30
+kfselect_min_disparity: 20
 # When taking a new keyframe,
 # we can already update the newly initialized seeds with old keyframes.
 # This is important for forward looking case.
@@ -65,7 +65,7 @@ reprojector_affine_est_gain: false
 ########################################
 # Initialization
 # For a higher resolution, increase the value accordingly.
-init_min_disparity: 25
+init_min_features: 30
 init_min_disparity: 10
 
 # Feature Detection
@@ -149,8 +149,8 @@ zero_motion_sigma: 0.1
 # fixed_frame_rate: -1
 
 # Loop closing
-ceres_remove_marginalization_term_after_loop: false
-ceres_recalculate_imu_terms_after_loop: false
+ceres_remove_marginalization_term_after_loop: true
+ceres_recalculate_imu_terms_after_loop: true
 
 ##############################
 ##### Loop Closing parameters #####
