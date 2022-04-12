@@ -48,7 +48,7 @@ cameras:
 label: DAVIS-EVO
 
 imu_params:
-  delay_imu_cam: 0.0
+  delay_imu_cam: -0.0024
   max_imu_delta_t: 0.01
   acc_max: 155.0
   omega_max: 34
