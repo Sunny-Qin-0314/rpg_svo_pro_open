@@ -64,6 +64,9 @@ SvoInterface::SvoInterface(
     case PipelineType::kStereo:
       svo_ = factory::makeStereo(pnh_);
       break;
+    case PipelineType::kMonoEvent:
+      svo_ = factory::makeMonoEvent(pnh_);
+      break;
     case PipelineType::kArray:
       svo_ = factory::makeArray(pnh_);
       break;
@@ -394,6 +397,39 @@ void SvoInterface::stereoCallback(
   imageCallbackPostprocessing();
 }
 
+void SvoInterface::monoEventCallback(
+    const sensor_msgs::ImageConstPtr& msg0,
+    const sensor_msgs::ImageConstPtr& msg1)
+{
+  if(idle_)
+    return;
+
+  cv::Mat img0, img1;
+  try {
+    img0 = cv_bridge::toCvShare(msg0, "mono8")->image;
+    img1 = cv_bridge::toCvShare(msg1, "mono8")->image;
+  } catch (cv_bridge::Exception& e) {
+    ROS_ERROR("cv_bridge exception: %s", e.what());
+  }
+
+  if(!setImuPrior(msg0->header.stamp.toNSec()))
+  {
+    VLOG(3) << "Could not align gravity! Attempting again in next iteration.";
+    return;
+  }
+
+  imageCallbackPreprocessing(msg0->header.stamp.toNSec());
+
+  processImageBundle({img0, img1}, msg0->header.stamp.toNSec());
+  publishResults({img0, img1}, msg0->header.stamp.toNSec());
+
+  if(svo_->stage() == Stage::kPaused && automatic_reinitialization_)
+    svo_->start();
+
+  imageCallbackPostprocessing();
+}
+
+
 void SvoInterface::imuCallback(const sensor_msgs::ImuConstPtr& msg)
 {
   const Eigen::Vector3d omega_imu(
@@ -456,6 +492,13 @@ void SvoInterface::subscribeImage()
         new std::thread(&SvoInterface::stereoLoop, this));
 }
 
+void SvoInterface::subscribeMonoEvent()
+{
+  event_thread_ = std::unique_ptr<std::thread>(
+        new std::thread(&SvoInterface::monoEventLoop, this));
+}
+
+
 void SvoInterface::subscribeRemoteKey()
 {
   std::string remote_key_topic =
@@ -492,6 +535,33 @@ void SvoInterface::monoLoop()
       vk::param<std::string>(pnh_, "cam0_topic", "camera/image_raw");
   image_transport::Subscriber it_sub =
       it.subscribe(image_topic, 5, &svo::SvoInterface::monoCallback, this);
+
+  while(ros::ok() && !quit_)
+  {
+    queue.callAvailable(ros::WallDuration(0.1));
+  }
+}
+
+void SvoInterface::monoEventLoop()
+{
+  SVO_INFO_STREAM("SvoNode: Started Event Mono loop.");
+
+  typedef message_filters::sync_policies::ExactTime<sensor_msgs::Image, sensor_msgs::Image> ExactPolicy;
+  typedef message_filters::Synchronizer<ExactPolicy> ExactSync;
+
+  ros::NodeHandle nh(nh_, "image_thread");
+  ros::CallbackQueue queue;
+  nh.setCallbackQueue(&queue);
+
+  // subscribe to cam msgs
+  std::string mono0_topic(vk::param<std::string>(pnh_, "mono0_topic", "/cam0/image_raw"));
+  std::string event0_topic(vk::param<std::string>(pnh_, "event0_topic", "/cam1/image_raw"));
+
+  image_transport::ImageTransport it(nh);
+  image_transport::SubscriberFilter sub0(it, mono0_topic, 1, std::string("raw"));
+  image_transport::SubscriberFilter sub1(it, event0_topic, 1, std::string("raw"));
+  ExactSync sync_sub(ExactPolicy(5), sub0, sub1);
+  sync_sub.registerCallback(boost::bind(&svo::SvoInterface::monoEventCallback, this, _1, _2));
 
   while(ros::ok() && !quit_)
   {

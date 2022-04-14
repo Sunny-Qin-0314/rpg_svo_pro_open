@@ -456,6 +456,34 @@ FrameHandlerMono::Ptr makeMono(const ros::NodeHandle& pnh, const CameraBundlePtr
   return vo;
 }
 
+FrameHandlerMono::Ptr makeMonoEvent(const ros::NodeHandle& pnh, const CameraBundlePtr& cam)
+{
+  // Create camera  (TODO: yuqingq)
+  CameraBundle::Ptr ncam = (cam) ? cam : loadCameraFromYaml(pnh);
+  if (ncam->numCameras() > 2)
+  {
+    LOG(WARNING) << "Load more cameras than needed, will erase from the end.";
+    ncam->keepFirstNCams(1);
+  }
+
+  // Init VO
+  FrameHandlerMonoEvent::Ptr vo =
+      std::make_shared<FrameHandlerMonoEvent>(
+        loadBaseOptions(pnh, false),
+        loadDepthFilterOptions(pnh),
+        loadDetectorOptions(pnh),
+        loadInitializationOptions(pnh),
+        loadReprojectorOptions(pnh),
+        loadTrackerOptions(pnh),
+        ncam);
+
+  // Get initial position and orientation of IMU
+  setInitialPose(pnh, *vo);
+
+  return vo;
+}
+
+
 FrameHandlerStereo::Ptr makeStereo(const ros::NodeHandle& pnh, const CameraBundlePtr& cam)
 {
   // Load cameras

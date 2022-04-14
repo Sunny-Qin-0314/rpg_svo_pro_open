@@ -41,6 +41,7 @@ public:
   std::string remote_input_;
   std::unique_ptr<std::thread> imu_thread_;
   std::unique_ptr<std::thread> image_thread_;
+  std::unique_ptr<std::thread> event_thread_;
 
   // SVO modules.
   std::shared_ptr<FrameHandlerBase> svo_;
@@ -79,6 +80,7 @@ public:
 
   // Subscription and callbacks
   void monoCallback(const sensor_msgs::ImageConstPtr& msg);
+  void monoEventCallback(const sensor_msgs::ImageConstPtr& msg);
   void stereoCallback(
       const sensor_msgs::ImageConstPtr& msg0,
       const sensor_msgs::ImageConstPtr& msg1);
@@ -93,10 +95,12 @@ public:
 
   void subscribeImu();
   void subscribeImage();
+  void subscribeMonoEvent();
   void subscribeRemoteKey();
 
   void imuLoop();
   void monoLoop();
+  void monoEventLoop();
   void stereoLoop();
 };
 

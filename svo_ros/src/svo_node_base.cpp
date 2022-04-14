@@ -28,6 +28,7 @@ SvoNodeBase::SvoNodeBase()
     svo_interface_.subscribeImu();
   }
   svo_interface_.subscribeImage();
+  svo_interface_.subscribeMonoEvent();
   svo_interface_.subscribeRemoteKey();
 }
 

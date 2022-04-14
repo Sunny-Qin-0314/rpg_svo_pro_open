@@ -19,7 +19,7 @@
     <!-- <rosparam file="$(find svo_ros)/param/svo_desk.yaml" /> -->
     <!-- <rosparam file="$(find svo_ros)/param/svo_desk_imu.yaml" /> -->
     <rosparam file="$(find svo_ros)/param/svo_flyingroom_imu.yaml" />
-    <param name="runlc" value="false" />
+    <param name="runlc" value="true" />
 
   </node>
 

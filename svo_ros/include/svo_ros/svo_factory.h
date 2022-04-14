@@ -11,6 +11,7 @@ class ImuHandler;
 class LoopClosing;
 class GlobalMap;
 class FrameHandlerMono;
+class FrameHandlerMonoEvent;
 class FrameHandlerStereo;
 class FrameHandlerArray;
 class FrameHandlerDenseMono;
@@ -38,6 +39,11 @@ std::shared_ptr<GlobalMap> getGlobalMap(
 std::shared_ptr<FrameHandlerMono> makeMono(
     const ros::NodeHandle& pnh,
     const CameraBundlePtr& cam = nullptr);
+
+  /// Factory for MonoEvent-SVO.
+  std::shared_ptr<FrameHandlerMonoEvent> makeMonoEvent(
+      const ros::NodeHandle& pnh,
+      const CameraBundlePtr& cam = nullptr);
 
 /// Factory for Stereo-SVO.
 std::shared_ptr<FrameHandlerStereo> makeStereo(
