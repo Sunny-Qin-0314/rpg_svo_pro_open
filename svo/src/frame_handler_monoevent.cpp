@@ -84,6 +84,7 @@ UpdateResult FrameHandlerMonoEvent::processFirstFrame()
   // TODO: only make mono as key frame, not contain any event frames
   initializer_->frames_ref_->setKeyframe();
   initializer_->frames_ref_->at(0)->setKeyframe();
+  std::cout << initializer_->frames_ref_->size() << std::endl;
   if(bundle_adjustment_type_==BundleAdjustmentType::kCeres)
   {
      map_->addKeyframe(initializer_->frames_ref_->at(0),

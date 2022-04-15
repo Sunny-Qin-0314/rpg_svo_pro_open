@@ -9,7 +9,7 @@
 ############################
 
 # Pipeline type
-pipeline_is_stereo: True  # temporary to run monoevent pipeline
+pipeline_is_stereo: False  # temporary to run monoevent pipeline
 
 # Feature and keyframe number
 # To run faster, you can decrease `max_fts` and `max_n_kfs`, for example:
@@ -156,7 +156,7 @@ ceres_recalculate_imu_terms_after_loop: true
 ##### Loop Closing parameters #####
 ##############################
 # Flag to enable/disable loop closing
-runlc: True
+runlc: False
 # Name of the file which stores the BOW vocabulary #
 voc_name: voc_GEN_8X4.yml.gz
 # Data Extraction Threshold #

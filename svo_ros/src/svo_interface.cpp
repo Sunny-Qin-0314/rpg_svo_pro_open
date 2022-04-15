@@ -67,6 +67,7 @@ SvoInterface::SvoInterface(
       break;
     case PipelineType::kMonoEvent:
       svo_ = factory::makeMonoEvent(pnh_);
+      std::cout << "Feng Xiang - using makeMonoEvent pipeline." << std::endl;
       break;
     case PipelineType::kArray:
       svo_ = factory::makeArray(pnh_);
