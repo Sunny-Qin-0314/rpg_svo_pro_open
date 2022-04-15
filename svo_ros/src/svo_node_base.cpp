@@ -20,7 +20,7 @@ void SvoNodeBase::initThirdParty(int argc, char **argv)
 SvoNodeBase::SvoNodeBase()
 : node_handle_(), private_node_handle_("~"), type_(
     vk::param<bool>(private_node_handle_, "pipeline_is_stereo", false) ?
-        svo::PipelineType::kStereo : svo::PipelineType::kMono),
+        svo::PipelineType::kMonoEvent : svo::PipelineType::kMono),
         svo_interface_(type_, node_handle_, private_node_handle_)
 {
   if (svo_interface_.imu_handler_)

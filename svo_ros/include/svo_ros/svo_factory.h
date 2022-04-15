@@ -40,10 +40,10 @@ std::shared_ptr<FrameHandlerMono> makeMono(
     const ros::NodeHandle& pnh,
     const CameraBundlePtr& cam = nullptr);
 
-  /// Factory for MonoEvent-SVO.
-  std::shared_ptr<FrameHandlerMonoEvent> makeMonoEvent(
-      const ros::NodeHandle& pnh,
-      const CameraBundlePtr& cam = nullptr);
+/// Factory for MonoEvent-SVO.
+std::shared_ptr<FrameHandlerMonoEvent> makeMonoEvent(
+    const ros::NodeHandle& pnh,
+    const CameraBundlePtr& cam = nullptr);
 
 /// Factory for Stereo-SVO.
 std::shared_ptr<FrameHandlerStereo> makeStereo(
