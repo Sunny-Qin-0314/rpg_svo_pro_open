@@ -8,6 +8,7 @@ include(SvoSetup)
 
 list(APPEND SVO_SOURCEFILES
   src/frame_handler_mono.cpp
+  src/frame_handler_monoevent.cpp
   src/frame_handler_stereo.cpp
   src/frame_handler_array.cpp
   src/frame_handler_base.cpp
@@ -24,6 +25,7 @@ list(APPEND SVO_HEADERFILES
   include/svo/abstract_bundle_adjustment.h
   include/svo/frame_handler_base.h
   include/svo/frame_handler_mono.h
+  include/svo/frame_handler_monoevent.h
   include/svo/frame_handler_stereo.h
   include/svo/frame_handler_array.h
   include/svo/global.h

@@ -25,7 +25,8 @@ class CeresBackendPublisher;
 enum class PipelineType {
   kMono,
   kStereo,
-  kArray
+  kArray,
+  kMonoEvent
 };
 
 /// SVO Interface
@@ -80,7 +81,9 @@ public:
 
   // Subscription and callbacks
   void monoCallback(const sensor_msgs::ImageConstPtr& msg);
-  void monoEventCallback(const sensor_msgs::ImageConstPtr& msg);
+  void monoEventCallback(
+    const sensor_msgs::ImageConstPtr& msg0,
+    const sensor_msgs::ImageConstPtr& msg1);
   void stereoCallback(
       const sensor_msgs::ImageConstPtr& msg0,
       const sensor_msgs::ImageConstPtr& msg1);

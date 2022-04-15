@@ -81,6 +81,7 @@ UpdateResult FrameHandlerMonoEvent::processFirstFrame()
     return UpdateResult::kDefault;
 
   // make old frame keyframe
+  // TODO: only make mono as key frame, not contain any event frames
   initializer_->frames_ref_->setKeyframe();
   initializer_->frames_ref_->at(0)->setKeyframe();
   if(bundle_adjustment_type_==BundleAdjustmentType::kCeres)

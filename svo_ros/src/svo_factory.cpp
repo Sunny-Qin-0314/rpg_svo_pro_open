@@ -4,6 +4,7 @@
 #include <svo/common/imu_calibration.h>
 #include <svo_ros/svo_factory.h>
 #include <svo/frame_handler_mono.h>
+#include <svo/frame_handler_monoevent.h>
 #include <svo/frame_handler_stereo.h>
 #include <vikit/params_helper.h>
 
@@ -456,14 +457,14 @@ FrameHandlerMono::Ptr makeMono(const ros::NodeHandle& pnh, const CameraBundlePtr
   return vo;
 }
 
-FrameHandlerMono::Ptr makeMonoEvent(const ros::NodeHandle& pnh, const CameraBundlePtr& cam)
+FrameHandlerMonoEvent::Ptr makeMonoEvent(const ros::NodeHandle& pnh, const CameraBundlePtr& cam)
 {
   // Create camera  (TODO: yuqingq)
   CameraBundle::Ptr ncam = (cam) ? cam : loadCameraFromYaml(pnh);
   if (ncam->numCameras() > 2)
   {
     LOG(WARNING) << "Load more cameras than needed, will erase from the end.";
-    ncam->keepFirstNCams(1);
+    ncam->keepFirstNCams(2);
   }
 
   // Init VO

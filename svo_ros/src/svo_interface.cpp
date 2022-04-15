@@ -10,6 +10,7 @@
 #include <svo/common/camera.h>
 #include <svo/common/conversions.h>
 #include <svo/frame_handler_mono.h>
+#include <svo/frame_handler_monoevent.h>
 #include <svo/frame_handler_stereo.h>
 #include <svo/frame_handler_array.h>
 #include <svo/initialization.h>
@@ -168,7 +169,7 @@ void SvoInterface::processImageBundle(
       }
     }
   }
-  svo_->addImageBundle(images, timestamp_nanoseconds);
+  svo_->addImageBundle(images, timestamp_nanoseconds);  // connection point between front end(ros) to backend(SLAM main code)
 }
 
 void SvoInterface::publishResults(
@@ -418,15 +419,15 @@ void SvoInterface::monoEventCallback(
     return;
   }
 
-  imageCallbackPreprocessing(msg0->header.stamp.toNSec());
+  // imageCallbackPreprocessing(msg0->header.stamp.toNSec());
 
-  processImageBundle({img0, img1}, msg0->header.stamp.toNSec());
+  processImageBundle({img0, img1}, msg0->header.stamp.toNSec());  // SLAM main loop: tracking + mapping
   publishResults({img0, img1}, msg0->header.stamp.toNSec());
 
   if(svo_->stage() == Stage::kPaused && automatic_reinitialization_)
     svo_->start();
 
-  imageCallbackPostprocessing();
+  // imageCallbackPostprocessing();
 }
 
 
