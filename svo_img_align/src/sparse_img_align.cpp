@@ -41,6 +41,7 @@ size_t SparseImgAlign::run(
   // Select all visible features and subsample if required.
   fts_vec_.clear();
   size_t n_fts_to_track = 0;
+
   for(auto frame : ref_frames->frames_)
   {
     std::vector<size_t> fts;

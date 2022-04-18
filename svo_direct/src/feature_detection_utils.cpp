@@ -137,7 +137,7 @@ void fillFeatures(const Corners& corners,
     keypoints.col(n_old+i) = keypoint_vec[j];
     gradients.col(n_old+i) = gradient_vec[j];
     scores(n_old+i) = score_vec[j];
-    levels(n_old+i) = level_vec[j];   
+    levels(n_old+i) = level_vec[j];
   }
 }
 
@@ -779,11 +779,11 @@ void drawFeatures(
                    cv::Point2f(px(0) - 3 * g(1), px(1) + 3 * g(0)),
                    cv::Scalar(0, 0, 255), 2);
           break;
-        case FeatureType::kCornerSeed:
-        case FeatureType::kCornerSeedConverged:
-          cv::circle(*img_rgb, cv::Point2f(px(0), px(1)),
-                     5, cv::Scalar(0, 255, 0), 1);
-          break;
+        // case FeatureType::kCornerSeed:
+        // case FeatureType::kCornerSeedConverged:
+        //   cv::circle(*img_rgb, cv::Point2f(px(0), px(1)),
+        //              5, cv::Scalar(0, 255, 0), 1);
+        //   break;
         case FeatureType::kMapPointSeed:
         case FeatureType::kMapPointSeedConverged:
           cv::circle(*img_rgb, cv::Point2f(px(0), px(1)),
@@ -1011,4 +1011,3 @@ double getDominantAngle(const AngleHistogram& hist)
 } // angle_hist
 } // namespace feature_detection_utils
 } // namespace svo
-
