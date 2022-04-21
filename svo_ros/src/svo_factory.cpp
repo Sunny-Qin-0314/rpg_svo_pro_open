@@ -92,7 +92,7 @@ DetectorOptions loadDetectorOptions(const ros::NodeHandle& pnh)
   if(vk::param<bool>(pnh, "use_edgelets", true))
     o.detector_type = DetectorType::kFastGrad;
   else
-    o.detector_type = DetectorType::kFast;
+    o.detector_type = DetectorType::kShiTomasiGrad;
   return o;
 }
 
@@ -477,7 +477,7 @@ FrameHandlerMonoEvent::Ptr makeMonoEvent(const ros::NodeHandle& pnh, const Camer
         loadReprojectorOptions(pnh),
         loadTrackerOptions(pnh),
         ncam);
-
+  std::cout << "make Mono Event"<< std::endl;
   // Get initial position and orientation of IMU
   setInitialPose(pnh, *vo);
 

@@ -42,7 +42,7 @@ public:
   std::string remote_input_;
   std::unique_ptr<std::thread> imu_thread_;
   std::unique_ptr<std::thread> image_thread_;
-  std::unique_ptr<std::thread> event_thread_;
+  // std::unique_ptr<std::thread> event_thread_;
 
   // SVO modules.
   std::shared_ptr<FrameHandlerBase> svo_;
@@ -98,7 +98,7 @@ public:
 
   void subscribeImu();
   void subscribeImage();
-  void subscribeMonoEvent();
+  // void subscribeMonoEvent();
   void subscribeRemoteKey();
 
   void imuLoop();

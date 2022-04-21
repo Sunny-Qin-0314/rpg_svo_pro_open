@@ -9,7 +9,7 @@
 ############################
 
 # Pipeline type
-pipeline_is_stereo: False  # temporary to run monoevent pipeline
+pipeline_is_stereo: True  # temporary to run monoevent pipeline
 
 # Feature and keyframe number
 # To run faster, you can decrease `max_fts` and `max_n_kfs`, for example:
@@ -18,7 +18,7 @@ pipeline_is_stereo: False  # temporary to run monoevent pipeline
 max_fts: 180
 max_map_fts: 200
 max_n_kfs: 30
-quality_min_fts: 10
+quality_min_fts: 2
 # Map scale when initialized (not used for stereo)
 # Increase if the initial scene depth is larger
 map_scale: 0.6
@@ -33,17 +33,17 @@ T_world_imuinit/qw: 1
 kfselect_criterion: DOWNLOOKING # alterntive: DOWNLOOKING
 # The following kfselect_* ONLY affects FORWARD
 # If the number of features: >upper, no keyframe; <lower, take keyframe
-kfselect_numkfs_upper_thresh: 120
-kfselect_numkfs_lower_thresh: 70   # ! might change for lower resolution
+kfselect_numkfs_upper_thresh: 70
+kfselect_numkfs_lower_thresh: 50   # ! might change for lower resolution
 # If the current frame is within the following range of any visible keyframes,
 # do not take a new keyframe.
 # You can lower these values for more keyframes
 kfselect_min_dist_metric: 0.1
-kfselect_min_angle: 20
+kfselect_min_angle: 10
 # If the median disparity from the last keyframe is smaller,
 # do not take a new keyframe
 # You can lower this value for more keyframes
-kfselect_min_disparity: 20
+kfselect_min_disparity: 10
 # When taking a new keyframe,
 # we can already update the newly initialized seeds with old keyframes.
 # This is important for forward looking case.
@@ -65,35 +65,36 @@ reprojector_affine_est_gain: false
 ########################################
 # Initialization
 # For a higher resolution, increase the value accordingly.
-init_min_features: 30
+init_min_features: 10
 init_min_disparity: 10
 
 # Feature Detection
-grid_size: 5 # Larger for larger images, for every cell you have max one feature.
+grid_size: 1 # Larger for larger images, for every cell you have max one feature.
 n_pyr_levels: 2 # Increase for larger images (image align max minus one)
-detector_threshold_primary: 8 # Fast detector threshold
-detector_threshold_secondary: 200 # Edgelet detector threshold
+detector_threshold_primary: 0.0 # Fast detector threshold
+detector_threshold_secondary: 0.5 # Edgelet detector threshold
 detector_threshold_shitomasi: 30
+# use_edgelets: true
 
 # Image Alignment
 img_align_max_level: 3 # Increase this level by one if the image is double the width and height (752x480).
-img_align_min_level: 2
+img_align_min_level: 1
 
 # Reprojection
 use_async_reprojectors: False # For stereo, change it to True for multithreading.
-reprojector_max_n_kfs: 5 # Local map size. Larger is computationally more intensive. More reduces drift.
+reprojector_max_n_kfs: 15 # Local map size. Larger is computationally more intensive. More reduces drift.
 scan_epi_unit_sphere: False # for wide angle lens, set it to True.
 reproject_unconverged_seeds: True
-max_unconverged_seeds_ratio: 0.2
+max_unconverged_seeds_ratio: 0.8
 
 # Pose Optimization
-poseoptim_thresh: 2.0 # Reprojection outlier threshold (px), should be larger for larger images.
+poseoptim_thresh: 1.0 # Reprojection outlier threshold (px), should be larger for larger images.
 poseoptim_using_unit_sphere: False # For wide angle lens, set it to True
 
 # Depth Filter
 # How many times does the covariance need to decrease until a seed is considered converged.
 # Increase to get more accurate points
-seed_convergence_sigma2_thresh: 100
+seed_convergence_sigma2_thresh: 50
 mappoint_convergence_sigma2_thresh: 200
 
 relocalization_max_trials: 5
@@ -135,7 +136,7 @@ ransac3d_inlier_percent: 25
 
 # outlier rejection
 use_outlier_rejection: true
-outlier_rejection_px_threshold: 2.0
+outlier_rejection_px_threshold: 1.0
 
 # Zero Motion Detection
 backend_use_zero_motion_detection: true

@@ -66,6 +66,7 @@ SvoInterface::SvoInterface(
       svo_ = factory::makeStereo(pnh_);
       break;
     case PipelineType::kMonoEvent:
+      std::cout << "SvoInterface: makeMonoEvent" << std::endl;
       svo_ = factory::makeMonoEvent(pnh_);
       std::cout << "Feng Xiang - using makeMonoEvent pipeline." << std::endl;
       break;
@@ -421,7 +422,7 @@ void SvoInterface::monoEventCallback(
   }
 
   // imageCallbackPreprocessing(msg0->header.stamp.toNSec());
-
+  std::cout << "monoEventCallback" << std::endl;
   processImageBundle({img0, img1}, msg0->header.stamp.toNSec());  // SLAM main loop: tracking + mapping
   publishResults({img0, img1}, msg0->header.stamp.toNSec());
 
@@ -492,13 +493,16 @@ void SvoInterface::subscribeImage()
   else if(pipeline_type_ == PipelineType::kStereo)
     image_thread_ = std::unique_ptr<std::thread>(
         new std::thread(&SvoInterface::stereoLoop, this));
-}
-
-void SvoInterface::subscribeMonoEvent()
-{
-  event_thread_ = std::unique_ptr<std::thread>(
+  else if(pipeline_type_ == PipelineType::kMonoEvent)
+    image_thread_ = std::unique_ptr<std::thread>(
         new std::thread(&SvoInterface::monoEventLoop, this));
 }
+
+// void SvoInterface::subscribeMonoEvent()
+// {
+//   image_thread_ = std::unique_ptr<std::thread>(
+//         new std::thread(&SvoInterface::monoEventLoop, this));
+// }
 
 
 void SvoInterface::subscribeRemoteKey()
@@ -546,30 +550,54 @@ void SvoInterface::monoLoop()
 
 void SvoInterface::monoEventLoop()
 {
-  SVO_INFO_STREAM("SvoNode: Started Event Mono loop.");
+  SVO_INFO_STREAM("SvoNode: Started mono event loop.");
 
-  typedef message_filters::sync_policies::ExactTime<sensor_msgs::Image, sensor_msgs::Image> ExactPolicy;
-  typedef message_filters::Synchronizer<ExactPolicy> ExactSync;
-
-  ros::NodeHandle nh(nh_, "image_thread");
+  ros::NodeHandle nh;
   ros::CallbackQueue queue;
   nh.setCallbackQueue(&queue);
 
-  // subscribe to cam msgs
-  std::string mono0_topic(vk::param<std::string>(pnh_, "mono0_topic", "/cam0/image_raw"));
-  std::string event0_topic(vk::param<std::string>(pnh_, "event0_topic", "/cam1/image_raw"));
-
   image_transport::ImageTransport it(nh);
-  image_transport::SubscriberFilter sub0(it, mono0_topic, 1, std::string("raw"));
-  image_transport::SubscriberFilter sub1(it, event0_topic, 1, std::string("raw"));
-  ExactSync sync_sub(ExactPolicy(5), sub0, sub1);
-  sync_sub.registerCallback(boost::bind(&svo::SvoInterface::monoEventCallback, this, _1, _2));
+  std::string image_topic =
+      vk::param<std::string>(pnh_, "mono0_topic", "/cam0/image_raw");
+  image_transport::Subscriber it_sub_mono =
+      it.subscribe(image_topic, 5, &svo::SvoInterface::monoCallback, this);
+  std::string event_topic =
+      vk::param<std::string>(pnh_, "event0_topic", "/cam1/image_raw");
+  image_transport::Subscriber it_sub_event =
+      it.subscribe(event_topic, 5, &svo::SvoInterface::monoCallback, this);
 
   while(ros::ok() && !quit_)
   {
     queue.callAvailable(ros::WallDuration(0.1));
   }
 }
+
+// void SvoInterface::monoEventLoop()
+// {
+//   SVO_INFO_STREAM("SvoNode: Started Event Mono loop.");
+//
+//   typedef message_filters::sync_policies::ExactTime<sensor_msgs::Image, sensor_msgs::Image> ExactPolicy;
+//   typedef message_filters::Synchronizer<ExactPolicy> ExactSync;
+//
+//   ros::NodeHandle nh(nh_, "image_thread");
+//   ros::CallbackQueue queue;
+//   nh.setCallbackQueue(&queue);
+//
+//   // subscribe to cam msgs
+//   std::string mono0_topic(vk::param<std::string>(pnh_, "mono0_topic", "/cam0/image_raw"));
+//   std::string event0_topic(vk::param<std::string>(pnh_, "event0_topic", "/cam1/image_raw"));
+//
+//   image_transport::ImageTransport it(nh);
+//   image_transport::SubscriberFilter sub0(it, mono0_topic, 1, std::string("raw"));
+//   image_transport::SubscriberFilter sub1(it, event0_topic, 1, std::string("raw"));
+//   ExactSync sync_sub(ExactPolicy(100), sub0, sub1);
+//   sync_sub.registerCallback(boost::bind(&svo::SvoInterface::monoEventCallback, this, _1, _2));
+//
+//   while(ros::ok() && !quit_)
+//   {
+//     queue.callAvailable(ros::WallDuration(0.1));
+//   }
+// }
 
 void SvoInterface::stereoLoop()
 {

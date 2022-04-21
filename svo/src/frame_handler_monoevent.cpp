@@ -37,6 +37,8 @@ FrameHandlerMonoEvent::FrameHandlerMonoEvent(
 
 UpdateResult FrameHandlerMonoEvent::processFrameBundle()
 {
+
+  std::cout << "processFrame Bundle" << std::endl;
   UpdateResult res = UpdateResult::kFailure;
   if(stage_ == Stage::kTracking)
   {
@@ -82,6 +84,7 @@ UpdateResult FrameHandlerMonoEvent::processFirstFrame()
 
   // make old frame keyframe
   // TODO: only make mono as key frame, not contain any event frames
+  std::cout << "Make mono frame as key frame" << std::endl;
   initializer_->frames_ref_->setKeyframe();
   initializer_->frames_ref_->at(0)->setKeyframe();
   std::cout << initializer_->frames_ref_->size() << std::endl;

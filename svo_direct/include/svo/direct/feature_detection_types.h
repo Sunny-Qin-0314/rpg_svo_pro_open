@@ -61,7 +61,7 @@ struct DetectorOptions
   int border = 8;
 
   /// Choose between {FAST, FAST_GRAD}, FAST_GRAD will use Edgelets.
-  DetectorType detector_type = DetectorType::kFast;
+  DetectorType detector_type = DetectorType::kShiTomasiGrad;
 
   /// Primary detector threshold
   double threshold_primary = 10.0;
