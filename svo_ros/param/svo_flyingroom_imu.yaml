@@ -9,7 +9,7 @@
 ############################
 
 # Pipeline type
-pipeline_is_stereo: True  # temporary to run monoevent pipeline
+pipeline_is_stereo: False  # temporary to run monoevent pipeline
 
 # Feature and keyframe number
 # To run faster, you can decrease `max_fts` and `max_n_kfs`, for example:
