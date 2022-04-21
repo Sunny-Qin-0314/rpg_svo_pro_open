@@ -1,4 +1,15 @@
 # rpg_svo_pro
+This repo forked from rpg_svo_pro. Adding event camera data for SLAM project 16833 at CMU.
+
+## Usage:
+1. `roslaunch svo_ros event_camera_mono.launch`
+2. `roslaunch better_flow better_proc_visualizer.launch`
+3. `rosbag play evo_flyingroom.bag`
+    - from `cognifli` package
+    - add FXX custom `better-flow` package before compilation
+
+
+# rpg_svo_pro
 
 This repo includes **SVO Pro** which is the newest version of Semi-direct Visual Odometry (SVO) developed over the past few years at the Robotics and Perception Group (RPG).
 SVO was born as a fast and versatile visual front-end as described in the [SVO paper (TRO-17)](http://rpg.ifi.uzh.ch/docs/TRO17_Forster-SVO.pdf). Since then, different extensions have been integrated through various research and industrial projects.
