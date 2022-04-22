@@ -136,7 +136,7 @@ struct BaseOptions
   /// For small FoV pinhole projection, it is safe to leave it as false.
   /// For fisheye lens, set this to true.
   bool img_align_use_distortion_jacobian = false;
-  
+
   /// Estimate an affine transformation for illumination/exposure change.
   /// If you observe bad tracking because of illumination/exposure change,
   /// enabling these parameters might help.
@@ -388,6 +388,7 @@ public:
 
   /// Current frame-bundle that is being processed
   FrameBundlePtr new_frames_;
+  FrameBundlePtr new_event_frames_;
 
   /// Last frame-bundle that was processed. Can be nullptr.
   FrameBundlePtr last_frames_;
