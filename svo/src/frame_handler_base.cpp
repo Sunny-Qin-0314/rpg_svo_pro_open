@@ -177,16 +177,25 @@ bool FrameHandlerBase::addImageBundle(const std::vector<cv::Mat>& imgs, const ui
   {
     SVO_START_TIMER("pyramid_creation");
   }
-  CHECK_EQ(imgs.size(), cams_->getNumCameras());
+  // Feng Xiang: removed check
+  // CHECK_EQ(imgs.size(), cams_->getNumCameras());
   std::vector<FramePtr> frames;
   for (size_t i = 0; i < imgs.size(); ++i)
   {
+    // Feng Xiang: remove event frames from the bundle
+    if (i > 0)
+    {
+      continue;
+    }
     frames.push_back(
         std::make_shared < Frame
             > (cams_->getCameraShared(i), imgs[i].clone(), timestamp, options_.img_align_max_level + 1));
     frames.back()->set_T_cam_imu(cams_->get_T_C_B(i));
     frames.back()->setNFrameIndex(i);
   }
+  std::cout << "Feng Xiang: size of imgs is - " << imgs.size() << std::endl;
+  std::cout << "Feng Xiang: size of frames is - " << frames.size() << std::endl;
+
   FrameBundlePtr frame_bundle(new FrameBundle(frames));
   if (options_.trace_statistics)
   {

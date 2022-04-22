@@ -433,6 +433,8 @@ StereoInit::StereoInit(
 InitResult StereoInit::addFrameBundle(
     const FrameBundlePtr& frames)
 {
+  
+  return InitResult::kSuccess;
   CHECK_EQ(frames->size(), 2u) << "StereoInit: Bundle has not two frames!";
   reset();
   frames_ref_ = frames;
