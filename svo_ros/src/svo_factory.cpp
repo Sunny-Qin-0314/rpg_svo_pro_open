@@ -92,7 +92,7 @@ DetectorOptions loadDetectorOptions(const ros::NodeHandle& pnh)
   if(vk::param<bool>(pnh, "use_edgelets", true))
     o.detector_type = DetectorType::kFastGrad;
   else
-    o.detector_type = DetectorType::kShiTomasiGrad;
+    o.detector_type = DetectorType::kGridGrad;
   return o;
 }
 

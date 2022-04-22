@@ -18,7 +18,7 @@ pipeline_is_stereo: True  # temporary to run monoevent pipeline
 max_fts: 180
 max_map_fts: 200
 max_n_kfs: 30
-quality_min_fts: 2
+quality_min_fts: 20
 # Map scale when initialized (not used for stereo)
 # Increase if the initial scene depth is larger
 map_scale: 0.6

@@ -60,6 +60,7 @@ void FastDetector::detect(
     Gradients& grad_vec,
     FeatureTypes& types_vec)
 {
+  std::cout << "fast detector" << std::endl;
   Corners corners(
         grid_.n_cols*grid_.n_rows,
         Corner(0, 0, options_.threshold_primary, 0, 0.0f));
@@ -85,6 +86,7 @@ void GradientDetector::detect(
     FeatureTypes& types_vec)
 {
   // Compute pyramid of derivative max magnitude
+  std::cout << "grad detector" << std::endl;
   ImgPyr mag_pyr(img_pyr.size());
   for(size_t i=0; i<img_pyr.size(); ++i)
   {
@@ -138,6 +140,7 @@ void GradientDetectorGrid::detect(
     Gradients& grad_vec,
     FeatureTypes& types_vec)
 {
+  std::cout << "grad detector" << std::endl;
   Corners corners(
         grid_.n_cols * grid_.n_rows,
         Corner(0, 0, options_.threshold_secondary, 0, 0.0f));
@@ -164,6 +167,7 @@ void FastGradDetector::detect(
 {
   {
     // Detect fast corners.
+    std::cout << "fast grad detector" << std::endl;
     Corners corners(
           grid_.n_cols*grid_.n_rows,
           Corner(0, 0, options_.threshold_primary, 0, 0.0f));
@@ -206,6 +210,7 @@ void ShiTomasiGradDetector::detect(
 {
   {
     // Detect shitomasi corners.
+    std::cout << "shitomasi grad detector" << std::endl;
     Corners corners(
           grid_.n_cols*grid_.n_rows,
           Corner(0, 0, options_.threshold_shitomasi, 0, 0.0f));
@@ -259,6 +264,7 @@ void ShiTomasiDetector::detect(
     FeatureTypes& types_vec)
 {
   {
+    std::cout << "shitomasi detector" << std::endl;
     // Detect shitomasi corners.
     Corners corners(
           grid_.n_cols*grid_.n_rows,
@@ -314,12 +320,14 @@ void AllPixelsDetector::detect(
     Gradients& grad_vec,
     FeatureTypes& types_vec)
 {
+
   const int width = img_pyr.at(options_.sampling_level).cols;
   const int height = img_pyr.at(options_.sampling_level).rows;
   const int pyr_init_scale = 1 << options_.sampling_level;
   const int border = options_.border;
   const size_t num_features = (width-2*border) * (height-2*border);
 
+  std::cout << "all pixel detector" << std::endl;
   px_vec.resize(Eigen::NoChange, num_features);
   score_vec.setConstant(num_features, 1.0);
   level_vec.setConstant(num_features, options_.level);
@@ -347,6 +355,7 @@ void CannyDetector::detect(
     FeatureTypes& types_vec)
 {
   // Compute pyramid of derivative max magnitude
+  std::cout << "canny detector" << std::endl;
   cv::Mat canny_edges;
   fd_utils::detectCannyEdges(img_pyr[options_.sampling_level], canny_edges);
 
@@ -388,6 +397,7 @@ void SobelDetector::detect(
     FeatureTypes& types_vec)
 {
   // Compute pyramid of derivative max magnitude
+  std::cout << "sobel detector" << std::endl;
   cv::Mat sobel_edges;
   fd_utils::detectSobelEdges(img_pyr[options_.sampling_level], sobel_edges);
 
@@ -430,6 +440,7 @@ void GradientHuangMumfordDetector::detect(
     FeatureTypes& types_vec)
 {
   // Compute pyramid of derivative max magnitude
+  std::cout << "grad huang detector" << std::endl;
   ImgPyr mag_pyr_32f(img_pyr.size());
   for(size_t i=0; i<img_pyr.size(); ++i)
   {
@@ -487,4 +498,3 @@ void GradientHuangMumfordDetector::detect(
 }
 
 } // namespace svo
-

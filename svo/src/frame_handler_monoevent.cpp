@@ -223,6 +223,9 @@ UpdateResult FrameHandlerMonoEvent::processFrame()
   depth_filter_->addKeyframe(
         newFrame(), depth_median_, 0.5*depth_min_, depth_median_*1.5);
 
+  depth_filter_->addKeyframe(
+        new_event_frames_->frames_[0], depth_median_, 0.5*depth_min_, depth_median_*1.5);
+
   if(options_.update_seeds_with_old_keyframes)
   {
     VLOG(40) << "Updating seeds in current frame using last frame...";
