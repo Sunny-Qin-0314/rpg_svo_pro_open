@@ -334,11 +334,14 @@ void AllPixelsDetector::detect(
   grad_vec.resize(Eigen::NoChange, num_features);
   types_vec.assign(num_features, svo::FeatureType::kCorner);
   size_t feature_index = 0;
+  auto img = img_pyr.at(options_.sampling_level);
   for(int y=border; y<height-border; ++y)
   {
     for(int x=border; x<width-border; ++x)
     {
-      px_vec.col(feature_index++) = svo::Keypoint(x*pyr_init_scale, y*pyr_init_scale);
+      std::cout << img.at<float>(y, x) << std::endl;
+      if (img.at<float>(y, x) > 0)
+        px_vec.col(feature_index++) = svo::Keypoint(x*pyr_init_scale, y*pyr_init_scale);
     }
   }
 }
